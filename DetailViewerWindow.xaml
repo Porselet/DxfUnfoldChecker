@@ -1,0 +1,158 @@
+﻿<Window x:Class="DxfUnfoldChecker.DetailViewerWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="Детальный анализ чертежа"
+    Height="750"
+    Width="1100"
+    WindowStartupLocation="CenterOwner">
+    <Grid
+        Margin="10">
+        <Grid.ColumnDefinitions>
+            <!-- Левая панель: Таблицы дефектов и предупреждений -->
+            <ColumnDefinition
+                Width="380" />
+            <!-- Разделитель -->
+            <ColumnDefinition
+                Width="Auto" />
+            <!-- Правая панель: Графика -->
+            <ColumnDefinition
+                Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <!-- ЛЕВАЯ ПАНЕЛЬ -->
+        <!-- ЛЕВАЯ ПАНЕЛЬ ОКНА ДЕТАЛЕЙ -->
+        <Grid
+            Grid.Column="0"
+            Margin="0,0,10,0">
+            <Grid.RowDefinitions>
+                <RowDefinition
+                    Height="Auto" />
+                <!-- Для имени файла -->
+                <RowDefinition
+                    Height="Auto" />
+                <!-- НОВАЯ СТРОКА: Для чекбокса -->
+                <RowDefinition
+                    Height="130" />
+                <!-- Для журнала исправлений -->
+                <RowDefinition
+                    Height="*" />
+                <!-- Для таблицы дефектов -->
+            </Grid.RowDefinitions>
+
+            <!-- Имя файла (Строка 0) -->
+            <TextBlock
+                x:Name="TxtFileName"
+                Grid.Row="0"
+                Text="Имя файла.dxf"
+                FontSize="16"
+                FontWeight="Bold"
+                Margin="0,0,0,5"
+                TextTrimming="CharacterEllipsis" />
+
+            <!-- НОВЫЙ ЧЕКБОКС: Управление маркерами (Строка 1) -->
+            <CheckBox
+                x:Name="ChkVizMarkers"
+                Grid.Row="1"
+                Content="Показывать маркеры мест разрыва контура"
+                IsChecked="True"
+                Margin="0,5,0,10"
+                FontWeight="SemiBold"
+                Checked="ChkVizMarkers_Checked"
+                Unchecked="ChkVizMarkers_Unchecked" />
+
+            <!-- Журнал автоматических исправлений (Переехал на Строку 2) -->
+            <GroupBox
+                Grid.Row="2"
+                Header="⚠️ Журнал автоматических исправлений">
+                <ListBox
+                    x:Name="LstWarnings"
+                    DisplayMemberPath="Message"
+                    FontSize="11"
+                    Foreground="DarkOrange"
+                    Background="#FFFDE7" />
+            </GroupBox>
+
+            <!-- Таблица дефектов (Переехала на Строку 3) -->
+            <GroupBox
+                Grid.Row="3"
+                Header="❌ Найденные дефекты (Разрывы и Наложения)"
+                Margin="0,10,0,0">
+                <!-- DataGrid остается без изменений -->
+                <DataGrid
+                    x:Name="DgDefects"
+                    AutoGenerateColumns="False"
+                    IsReadOnly="True"
+                    GridLinesVisibility="Horizontal"
+                    Background="White">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn
+                            Header="Тип"
+                            Binding="{Binding Type}"
+                            Width="90" />
+                        <DataGridTextColumn
+                            Header="Описание проблемы"
+                            Binding="{Binding Description}"
+                            Width="*" />
+                    </DataGrid.Columns>
+                </DataGrid>
+            </GroupBox>
+        </Grid>
+
+        <!-- РАЗДЕЛИТЕЛЬ -->
+        <GridSplitter
+            Grid.Column="1"
+            Width="5"
+            HorizontalAlignment="Stretch"
+            Background="#E0E0E0" />
+
+        <!-- ПРАВАЯ ПАНЕЛЬ: Графический движок -->
+        <!-- Замените правую панель (Grid Column 2) в DetailViewerWindow.xaml на эту структуру -->
+        <Border
+            Grid.Column="2"
+            Background="#1E1E1E"
+            Margin="10,0,0,0"
+            ClipToBounds="True">
+            <ScrollViewer
+                x:Name="CadScrollViewer"
+                HorizontalScrollBarVisibility="Hidden"
+                VerticalScrollBarVisibility="Hidden"
+                Focusable="False">
+                <!-- Сетка улавливает мышь для перетаскивания -->
+                <Grid
+                    x:Name="MouseCatchGrid"
+                    Background="Transparent"
+                    MouseWheel="CadCanvas_MouseWheel"
+                    MouseDown="CadCanvas_MouseDown"
+                    MouseUp="CadCanvas_MouseUp"
+                    MouseMove="CadCanvas_MouseMove">
+                    <Canvas
+                        x:Name="CadCanvas"
+                        Width="1000"
+                        Height="1000"
+                        Background="#1E1E1E"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top">
+                        <Canvas.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform
+                                    x:Name="CanvasScale"
+                                    ScaleX="1"
+                                    ScaleY="-1"
+                                    CenterY="500"
+                                    CenterX="500" />
+                                <TranslateTransform
+                                    x:Name="CanvasTranslate"
+                                    X="0"
+                                    Y="0" />
+                            </TransformGroup>
+                        </Canvas.RenderTransform>
+                    </Canvas>
+                </Grid>
+            </ScrollViewer>
+        </Border>
+    </Grid>
+</Window>
+
+
