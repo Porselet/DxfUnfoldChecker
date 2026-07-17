@@ -58,17 +58,23 @@
                     <DataGridTextColumn
                         Header="Имя файла развертки"
                         Binding="{Binding FileName}"
-                        Width="250"
+                        Width="220"
                         FontWeight="SemiBold" />
+                    <!-- НОВАЯ КОЛОНКА -->
                     <DataGridTextColumn
-                        Header="Статус проверки"
+                        Header="Версия DXF"
+                        Binding="{Binding DxfVersion}"
+                        Width="150" />
+                    <DataGridTextColumn
+                        Header="Статус"
                         Binding="{Binding Status}"
-                        Width="110" />
+                        Width="90" />
                     <DataGridTextColumn
                         Header="Инженерный вердикт валидатора"
                         Binding="{Binding SummaryMessage}"
                         Width="*" />
                 </DataGrid.Columns>
+
             </DataGrid>
         </GroupBox>
 

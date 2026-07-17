@@ -22,14 +22,16 @@ namespace DxfUnfoldChecker
 
     public class TopologyEngine
     {
-        public TopologyResult BuildContours(List<AnalyticSegment> inputSegments, double tolerance = 0.05)
+        public TopologyResult BuildContours(List<AnalyticSegment> inputSegments, double tolerance = 0.015)
         {
             var result = new TopologyResult();
             // Делаем копию списка, чтобы оригинальный листинг не пострадал
             var remainingSegments = new List<AnalyticSegment>(inputSegments);
 
-            // Игнорируем микро-мусор (линии нулевой длины), которые иногда выгружает CAD
-            remainingSegments.RemoveAll(s => s.Length < tolerance);
+            // Вместо удаления всего, что меньше допуска (0.05),
+            // отсекаем ТОЛЬКО чистые математические нули (точки), чтобы граф не зациклился
+            remainingSegments.RemoveAll(s => s.Start.X == s.End.X && s.Start.Y == s.End.Y);
+
 
             while (remainingSegments.Count > 0)
             {

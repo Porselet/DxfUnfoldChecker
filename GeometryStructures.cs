@@ -6,7 +6,7 @@ namespace DxfUnfoldChecker
     public record Point2D(double X, double Y)
     {
         // Метод сравнения двух точек с учетом зазора/допуска
-        public bool IsCloseTo(Point2D other, double tolerance = 0.01)
+        public bool IsCloseTo(Point2D other, double tolerance)
         {
             double dx = X - other.X;
             double dy = Y - other.Y;
@@ -37,6 +37,9 @@ namespace DxfUnfoldChecker
     {
         public List<AnalyticSegment> Segments { get; set; } = new();
         public List<GeometryWarning> Warnings { get; set; } = new();
+
+        // ДОБАВЬТЕ ЭТУ СТРОКУ (Сюда складываются сегменты без мелкой нарезки дуг)
+        public List<AnalyticSegment> CleanlinessSegments { get; set; } = new();
     }
 
     // Добавьте это в самый конец файла GeometryStructures.cs inside namespace DxfUnfoldChecker
