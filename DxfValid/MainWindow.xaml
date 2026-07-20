@@ -27,23 +27,18 @@
             Margin="0,0,0,15">
             <Button
                 x:Name="BtnSelectFolder"
-                Content="📁 Проверить папку с чертежами (DXF)"
-                Width="300"
+                Content="📁 Проверить"
+                Width="150"
                 Height="40"
-                FontSize="13"
-                FontWeight="Bold"
-                Background="#E8F5E9"
+                Margin="0,0,15,0"
                 Click="BtnSelectFolder_Click" />
+
             <TextBlock
                 x:Name="TxtFolderPath"
                 Text="Папка не выбрана..."
-                VerticalAlignment="Center"
-                Margin="15,0,0,0"
-                Foreground="Gray"
-                FontSize="12"
-                FontStyle="Italic" />
+                VerticalAlignment="Center" />
         </StackPanel>
-
+        
         <!-- Таблица всего комплекта -->
         <GroupBox
             Grid.Row="1"

@@ -2,7 +2,7 @@
   "profiles": {
     "DxfValid": {
       "commandName": "Project",
-      "commandLineArgs": "-file \"D:\\1.dxf\""
+      "commandLineArgs": "-folder \"D:\\dxf\""
     }
   }
 }

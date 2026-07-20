@@ -139,6 +139,9 @@ namespace DxfValid
             // Сценарий 1: Если передали ключ папки - запускаем наш пакетный скан
             if (!string.IsNullOrEmpty(AutoStartFolderPath))
             {
+                BtnSelectFolder.Visibility = Visibility.Collapsed;
+                TxtFolderPath.Text = $"📁 {AutoStartFolderPath}";
+                TxtFolderPath.FontWeight = FontWeights.Bold;
                 // Вызываем тот же самый асинхронный код, который мы писали для кнопки
                 // (С созданием ProgressWindow, Task.Run и выводом результатов)
                 await RunFolderValidationAsync(AutoStartFolderPath);
