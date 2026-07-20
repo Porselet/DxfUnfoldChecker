@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="DxfValid.Core/DxfValid.Core.csproj" />
+  <Project Path="DxfValid/DxfValid.csproj" />
+</Solution>
