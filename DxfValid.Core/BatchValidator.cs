@@ -18,21 +18,38 @@ namespace DxfValid.Core
         public TopologyResult Topology { get; set; } = new();
         public CleanlinessReport Cleanliness { get; set; } = new();
     }
-
+    public struct ProgressStatus
+    {
+        public int Current { get; set; }
+        public int Total { get; set; }
+        public string FileName { get; set; }
+    }
     public class BatchValidator
     {
         // Создаем экземпляр нашего нового пофайлового валидатора
         private readonly DxfSingleFileValidator _singleValidator = new();
 
-        public List<FileValidationSummary> ValidateFolder(string folderPath)
+        public List<FileValidationSummary> ValidateFolder(
+            string folderPath, 
+            IProgress<ProgressStatus> progress = null)
         {
             var summaries = new List<FileValidationSummary>();
-
+            if (!Directory.Exists(folderPath)) return summaries;
             // Рекурсивный поиск DXF-файлов во всех поддиректориях
             string[] files = Directory.GetFiles(folderPath, "*.dxf", SearchOption.AllDirectories);
+            int totalFiles = files.Length;
 
-            foreach (var file in files)
+            for (int i = 0; i < totalFiles; i++)
             {
+                string file = files[i];
+                if (progress != null) 
+                    progress.Report(new ProgressStatus 
+                    { 
+                        Current = i + 1, 
+                        Total = totalFiles, 
+                        FileName = Path.GetFileName(file) 
+                    });
+
                 try
                 {
                     // Вызываем единый пофайловый метод нашей библиотеки (допуск 0.05 мм)

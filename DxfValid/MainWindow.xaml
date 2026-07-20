@@ -4,9 +4,11 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-
-        Title="DxfUnfoldChecker - Диспетчер комплекта разверток" Height="550" Width="900"
-        WindowStartupLocation="CenterScreen">
+    Title="DxfUnfoldChecker - Диспетчер комплекта разверток"
+    Height="550"
+    Width="900"
+    WindowStartupLocation="CenterScreen"
+    ContentRendered="Window_ContentRendered">
     <Grid
         Margin="15">
         <Grid.RowDefinitions>
@@ -54,13 +56,23 @@
                 Background="White"
                 FontSize="12"
                 MouseDoubleClick="DgFolderSummary_MouseDoubleClick">
+                <DataGrid.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem
+                            Header="📁 Открыть папки с выделением файлов (Smart Sync)"
+                            Click="MenuOpenFolderSmart_Click"
+                            FontWeight="Bold" />
+                    </ContextMenu>
+                </DataGrid.ContextMenu>
+
                 <DataGrid.Columns>
+
                     <DataGridTextColumn
                         Header="Имя файла развертки"
                         Binding="{Binding FileName}"
                         Width="220"
                         FontWeight="SemiBold" />
-                    <!-- НОВАЯ КОЛОНКА -->
+
                     <DataGridTextColumn
                         Header="Версия DXF"
                         Binding="{Binding DxfVersion}"
